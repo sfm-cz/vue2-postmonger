@@ -1,0 +1,31 @@
+{
+  "name": "vue2-postmonger",
+  "version": "1.0.0",
+  "description": "Postmonger implementation for the Salesforce Marketing Cloud custom activity development",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pershmaj/vue2-postmonger.git"
+  },
+  "keywords": [
+    "SF",
+    "SFMC",
+    "Salesforce",
+    "Vue",
+    "Vue.js",
+    "Postmonger"
+  ],
+  "author": "Dmitrii Averin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pershmaj/vue2-postmonger/issues"
+  },
+  "homepage": "https://github.com/pershmaj/vue2-postmonger#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "postmonger": "0.0.16"
+  }
+}
