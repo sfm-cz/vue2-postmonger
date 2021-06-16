@@ -28,7 +28,7 @@ export default {
             : null;
         },
     },
-    created() {
+    mounted() {
         trigger('ready');
         
         try {
