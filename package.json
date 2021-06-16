@@ -1,6 +1,6 @@
 {
   "name": "vue2-postmonger",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Postmonger implementation for the Salesforce Marketing Cloud custom activity development",
   "main": "index.js",
   "scripts": {
