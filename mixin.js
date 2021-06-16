@@ -34,7 +34,7 @@ export default {
         try {
             const tokenPromise = new Promise((resolve) => {
                 this.requestTokens().then(() => {
-                    checkAuthToken(this.tokens.fuel2token).then(({result}) => {
+                    this.checkAuthToken(this.tokens.fuel2token).then(({result}) => {
                         this.mid = result.organization.id;
                         this.enterpiseId = result.enterprise.id;
                         this.userId = result.user.id;
