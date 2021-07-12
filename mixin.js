@@ -18,6 +18,12 @@ export default {
             deid: '',
             routes: {
                 auth: '/ui/auth',
+            },
+            button: {
+                button: 'next',
+                text: 'done',
+                visible: true,
+                enabled: true,
             }
         }
     },
@@ -57,6 +63,11 @@ export default {
         
     },
     methods: {
+        updateButton() {
+            return new Promise(() => {
+                trigger('updateButton', this.button);
+            });
+        },
         requestTokens() {
             return new Promise((resolve) => {
                 trigger('requestTokens');
