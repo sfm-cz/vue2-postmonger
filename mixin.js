@@ -24,7 +24,8 @@ export default {
                 text: 'done',
                 visible: true,
                 enabled: true,
-            }
+            },
+            schema: null,
         }
     },
     computed: {
@@ -66,6 +67,16 @@ export default {
         updateButton() {
             return new Promise(() => {
                 trigger('updateButton', this.button);
+            });
+        },
+        requestSchema() {
+            return new Promise((resolve) => {
+                trigger('requestSchema');
+                on('requestedSchema', (data) => {
+                    this.schema = data;
+                    resolve(data);
+                });
+                // timer and reject
             });
         },
         requestTokens() {
