@@ -26,6 +26,18 @@ export default {
                 enabled: true,
             },
             schema: null,
+            dataSource: null,
+            registeredAllowedOriginResponse: null,
+            interactionGoalStats: null,
+            activityPermissions: null,
+            engineSettings: null,
+            dataLibrarySource: null,
+            contactsSchema: null,
+            expressionBuilderAttributes: null,
+            userTimeZone: null,
+            entryEventDefinitionKey: null,
+            i18nConfig: null,
+            activityPayload: null,
         }
     },
     computed: {
@@ -36,6 +48,7 @@ export default {
         },
     },
     mounted() {
+        console.log('start trigger ready')
         trigger('ready');
         
         try {
@@ -49,7 +62,7 @@ export default {
                         resolve();
                     })
                 })   
-            })
+            });
 
             Promise.all([
                 tokenPromise,
@@ -57,6 +70,7 @@ export default {
                 this.initActivity(), 
                 this.requestInteraction()
             ]).then(() => this.loaded())
+            .catch((err) => console.error('Received error while loading postmonger', err))
 
         } catch(err) {
             console.error('Received error while loading postmonger', err)
@@ -73,8 +87,8 @@ export default {
             return new Promise((resolve) => {
                 trigger('requestSchema');
                 on('requestedSchema', (data) => {
-                    this.schema = data;
-                    resolve(data);
+                    this.schema = data.schema;
+                    resolve(data.schema);
                 });
                 // timer and reject
             });
@@ -91,6 +105,17 @@ export default {
             });
         },
         requestEventDefinitionID() {
+            return new Promise((resolve) => {
+                trigger('requestTriggerEventDefinition');
+                on('requestedTriggerEventDefinition', (eventDefinition) => {
+                    if(eventDefinition && eventDefinition.dataExtensionId) {
+                        this.deid = eventDefinition.dataExtensionId;
+                    }
+                    resolve(eventDefinition);
+                })
+            })
+        },
+        requestTriggerEventDefinition() {
             return new Promise((resolve) => {
                 trigger('requestTriggerEventDefinition');
                 on('requestedTriggerEventDefinition', (eventDefinition) => {
@@ -121,7 +146,10 @@ export default {
             })
         },
         update() {
-            trigger('updateActivity', this.activity)
+            trigger('updateActivity', this.activity);
+        },
+        updateActivity() {
+            trigger('updateActivity', this.activity);
         },
         onClickedNext(callback) {
             on('clickedNext', callback);
@@ -138,12 +166,138 @@ export default {
         previousStep() {
             trigger('prevStep');
         },
+        prevStep() {
+            trigger('prevStep');
+        },
+        requestDataSources() {  
+            return new Promise((resolve) => {
+                trigger('requestDataSources');
+                on('requestedDataSources', (data) => {
+                    this.dataSource = data;
+                    resolve(data);
+                });
+            });
+        },
+        registerAllowedOriginResponse() {
+            return new Promise((resolve) => {
+                trigger('registerAllowedOriginResponse');
+                on('registeredAllowedOriginResponse', (data) => {
+                    this.registeredAllowedOriginResponse = data;
+                    resolve(data);
+                });
+            });
+        },
+        requestInteractionGoalStats() {
+            return new Promise((resolve) => {
+                trigger('requestInteractionGoalStats');
+                on('requestedInteractionGoalStats', (data) => {
+                    this.interactionGoalStats = data;
+                    resolve(data);
+                });
+            });
+        },
+        requestActivityPermissions() {
+            return new Promise((resolve) => {
+                trigger('requestActivityPermissions');
+                on('requestedActivityPermissions', (data) => {
+                    this.activityPermissions = data;
+                    resolve(data);
+                });
+            });
+        },
+        requestEngineSettings() {
+            return new Promise((resolve) => {
+                trigger('requestEngineSettings');
+                on('requestedEngineSettings', (data) => {
+                    this.engineSettings = data;
+                    resolve(data);
+                });
+            });
+        },
+        requestDataLibrarySource() {
+            return new Promise((resolve) => {
+                trigger('requestDataLibrarySource');
+                on('requestedDataLibrarySource', (data) => {
+                    this.dataLibrarySource = data;
+                    resolve(data);
+                });
+            });
+        },
+        requestContactsSchema() {
+            return new Promise((resolve) => {
+                trigger('requestContactsSchema');
+                on('requestedContactsSchema', (data) => {
+                    this.contactsSchema = data;
+                    resolve(data);
+                });
+            });
+        },
+        requestExpressionBuilderAttributes() {
+            return new Promise((resolve) => {
+                trigger('requestExpressionBuilderAttributes');
+                on('requestedExpressionBuilderAttributes', (data) => {
+                    this.expressionBuilderAttributes = data;
+                    resolve(data);
+                });
+            })
+        },
+        requestUserTimeZone() {
+            return new Promise((resolve) => {
+                trigger('requestUserTimeZone');
+                on('requestedUserTimeZone', (data) => {
+                    this.userTimeZone = data;
+                    resolve(data);
+                });
+            })
+        },
+        requestEntryEventDefinitionKey() {
+            return new Promise((resolve) => {
+                trigger('requestEntryEventDefinitionKey');
+                on('requestedEntryEventDefinitionKey', (data) => {
+                    this.entryEventDefinitionKey = data;
+                    resolve(data);
+                });
+            })
+        },
+        requestI18nConfig() {
+            return new Promise((resolve) => {
+                trigger('requestI18nConfig');
+                on('requestedI18nConfig', (data) => {
+                    this.i18nConfig = data;
+                    resolve(data);
+                });
+            })
+        },
+        requestActivityPayload() {
+            return new Promise((resolve) => {
+                trigger('requestActivityPayload');
+                on('requestedActivityPayload', (data) => {
+                    this.activityPayload = data;
+                    resolve(data);
+                });
+            })
+        },
         destroy() {
             trigger('destroy');
         },
         async checkAuthToken(token) {
-            const { data } = await axios.post(this.routes.auth, { token });
-            return data;
+            if(this.routes.auth) {
+                const { data } = await axios.post(this.routes.auth, { token });
+                return data;
+            } else {
+                return {
+                    organization: {
+                        id: 0
+                    },
+                    enterpise: {
+                        id: 0,
+                    },
+                    user: {
+                        id: 0
+                    }
+                }
+            }
+           
         }
     }
 }
