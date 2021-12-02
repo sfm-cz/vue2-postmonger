@@ -17,7 +17,7 @@ Vue.use(VuePostmonger);
 Local installation (preffered): 
 
 ```
-import VuePostmonger from 'vue2-postmonger';
+import VuePostmonger from 'vue2-postmonger/mixin.js';
 
 export default {
     mixins: [VuePostmonger],
@@ -25,8 +25,8 @@ export default {
 }
 ```
 
-Plugin runs in mounted hook and triggers ```ready```.
-Then plugin will do request to ```/ui/auth``` enpoint to get token. To change endpoint change prop in your component data:
+Mixin runs in mounted hook and triggers ```ready```.
+Then mixin will do request to ```/ui/auth``` enpoint to get token. To change endpoint change prop in your component data:
 ```
 data() {
     return {
@@ -36,7 +36,7 @@ data() {
     }
 } 
 ```
-Or set ```router.auth``` to null if you don't need to get tokens.
+Or set ```router.checkAuth``` to ```false``` if you don't need to get tokens.
 
 If initialization was successful then it runs ```this.loaded()``` method that you have to implement on your side. On this step activity is loaded and you can access majority of properties or run methods described bellow.
 
