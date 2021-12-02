@@ -31,12 +31,14 @@ Then mixin will do request to ```/ui/auth``` enpoint to get token. To change end
 data() {
     return {
         routes: {
-            auth: '/ui/auth',
+            auth: '/ui/auth', // default endpoint
         },
     }
 } 
 ```
-Or set ```router.checkAuth``` to ```false``` if you don't need to get tokens.
+Or set ```routes.auth``` to ```null``` if you don't need to get tokens.
+
+The plugin is using axios for auth calls. Set ```axios.defaults.baseURL``` to add your baseUrl to all axios queries or modify ```routes.auth```.
 
 If initialization was successful then it runs ```this.loaded()``` method that you have to implement on your side. On this step activity is loaded and you can access majority of properties or run methods described bellow.
 

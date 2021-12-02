@@ -281,19 +281,21 @@ export default {
             trigger('destroy');
         },
         async checkAuthToken(token) {
-            if(this.routes.checkAuth) {
+            if(this.routes.auth) {
                 const { data } = await axios.post(this.routes.auth, { token });
                 return data;
             } else {
                 return {
-                    organization: {
-                        id: 0
-                    },
-                    enterpise: {
-                        id: 0,
-                    },
-                    user: {
-                        id: 0
+                    result: {
+                        organization: {
+                            id: 0
+                        },
+                        enterprise: {
+                            id: 0,
+                        },
+                        user: {
+                            id: 0
+                        }
                     }
                 }
             }
